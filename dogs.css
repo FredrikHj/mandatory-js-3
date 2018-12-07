@@ -1,0 +1,58 @@
+#mainConainer{
+  width: 1000px;
+  min-width: 800px;
+  height: 69%;
+  margin: auto;
+}
+header{
+  text-align: center;
+  background-color: orange;
+}
+main{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+/* Navbars */
+#dogBreedsMenues{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#headDogBreedsContainer{
+  height: 86%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow-y: scroll;
+  color: white;
+}
+.headBreeds {
+  display: block;
+  padding: 10px;
+  float: left;
+  background-color: black;
+}
+.headBreeds:last-child {
+  border-right: none;
+}
+.subBreed{
+  margin-left: 5px;
+  margin-top: 8px;
+  margin-bottom: 3px;
+}
+li{
+  list-style-type: none;
+}
+#presentDogBreed{
+  text-align: center;
+}
+
+.headBreeds:hover .subBreed{
+  display: block;
+}
+#dogBreedImgs{
+  width: 500px;
+  margin-top: 200px;
+}
