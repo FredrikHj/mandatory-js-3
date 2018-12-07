@@ -1,8 +1,8 @@
+let getBtnRefresh = document.querySelector('button');
+getBtnRefresh.addEventListener('click', getRandomImgs);
 
-
-let getBreedPlace = document.querySelector('#headDogBreedsContainer');
+let getBreedPlace = document.querySelector('#headDogBreedsContainer'); //Hur skicka in vartbael på ett mer riktigt sätt?
 getAllBreed();
-
 
 function getAllBreed() {
   //debugger;
@@ -50,35 +50,30 @@ function startLiListen() {
   console.log(getLiElement);
   for (let i = 0; i < getLiElement.length; i++) {
     let getLiElementToListen = getLiElement[i];
-    console.log(getLiElementToListen);
     getLiElementToListen.addEventListener('click', getRandomImgs);
   }
 }
 // Hämta random bilder baserat på vilken ras jag väljer
 function getRandomImgs () {
   let requestImgs = new XMLHttpRequest();
-  requestImgs.addEventListener('load', function() {
-    let getParsedRandomImgs = JSON.parse(this.responseText);
-    let getParsedImgsOfAllBreed = getParsedRandomImgs['message'];
-
-    let getPlaceforImgs = document.querySelector('#dogBreedImgs');
-    console.log(getPlaceforImgs);
-    getPlaceforImgs.setAttribute('src', getParsedImgsOfAllBreed);
-  });
+  requestImgs.addEventListener('load', insurtRandomImgs);
 
   let urlStr = 'https://dog.ceo/api/breeds/image/random';
   requestImgs.open('GET', urlStr);
   requestImgs.send();
-
-
-  let targetLi = e.target;
-  let targetStrDogBreed = targetLi.textContent;
-
-
-  let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
-
-  // ( 3423 ) Splitta upp din sträng du får i en array och hämta ut ordet på index 0
-  let getFirstWordOftargetStrDogBreed = targetStrDogBreed.split(' ')[0];
-  console.log(getFirstWordOftargetStrDogBreed);
-  getDogBreedsStrPlace.textContent = "Bilder på  " + getFirstWordOftargetStrDogBreed;
 }
+function insurtRandomImgs() {
+  let getParsedRandomImgs = JSON.parse(this.responseText);
+  let getParsedImgsOfAllBreed = getParsedRandomImgs['message'];
+  let getPlaceforImgs = document.querySelector('#dogBreedImgs');
+  getPlaceforImgs.setAttribute('src', getParsedImgsOfAllBreed);
+  let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
+}
+
+// ( 3423 ) Splitta upp din sträng du får i en array och hämta ut ordet på index 0
+//let getFirstWordOftargetStrDogBreed = targetStrDogBreed.split(' ')[0];
+//console.log(getFirstWordOftargetStrDogBreed);
+//getDogBreedsStrPlace.textContent = "Bilder på  " + getFirstWordOftargetStrDogBreed;
+//console.log(getFirstWordOftargetStrDogBreed);
+  //let targetLi = e.target;
+//  let targetStrDogBreed = targetLi.textContent;
