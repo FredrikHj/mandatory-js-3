@@ -1,3 +1,6 @@
+//Kör random bilder
+getIndividualDogBreed();
+
 // Refresh knapp för random bilder
 let dogBreedDefault;
 let getBtnRefresh = document.querySelector('button');
@@ -50,9 +53,6 @@ function renderDogBreedMenue() {
       createdLiForUl.appendChild(createdPForLiInUl);
       getBreedPlace.appendChild(createdLiForUl);
     }
-    console.log(listAllBreed);
-    console.log(getParsedListOfAllBreed);
-
     getSubBreeds = getParsedListOfAllBreed[listAllBreed];
     let createdSubUlForLi = document.createElement('ul');
     createdSubUlForLi.setAttribute('class', 'subBreed');
@@ -76,13 +76,12 @@ function renderDogBreedMenue() {
       }
     }
   }
-  getIndividualDogBreed()
 }
 // Hämta random bilder baserat på vilken ras jag väljer
 function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreeds){
   let urlStr;
   let getBreedStrAddressBar = location.hash;
-
+console.log(getBreedStrAddressBar);
   // # tecknet tas bort från strängen
   let getBreedStr = getBreedStrAddressBar.split('#')[1];
 
@@ -110,7 +109,7 @@ function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreed
     else getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr;
     urlStr = 'https://dog.ceo/api/breed/' + getBreedStr + '/images/random';
   }
-  else urlStr = 'https://dog.ceo/api/breed/images/random';
+  else urlStr = 'https://dog.ceo/api/breeds/image/random';
 
   requestImgs.open('GET', urlStr);
   requestImgs.send();
