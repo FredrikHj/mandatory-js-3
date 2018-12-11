@@ -9,7 +9,6 @@ getBtnRefresh.textContent = "Ny bild!";
 
 // Gäler för  hela projektet ---------------------------------------------------------
 let getPlaceforImgs = document.querySelector('#insurtDogBreedImgs');
-let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
 let createdLiForUl;
 
 let getBreedPlace = document.querySelector('#headDogBreedsContainer'); //Hur skicka in vartbael på ett mer riktigt sätt?
@@ -45,7 +44,7 @@ function renderDogBreedMenue() {
       //createdPForLiInUl.setAttribute('class', 'dogBreedHead');
 
       createdPForLiInUl.addEventListener('click', function(){
-       window.location.hash = listAllBreed;
+       window.location.hash = 'breed-' + listAllBreed;
        getIndividualDogBreed(getBigLetterAllDogBreeds);
       });
 
@@ -67,7 +66,7 @@ function renderDogBreedMenue() {
         let createdSubLiForUl = document.createElement('li');
         createdSubLiForUl.setAttribute('class', 'subBreedIteam');
           createdSubLiForUl.addEventListener('click', function(){
-         window.location.hash = listAllBreed + '/' + insurtSubBreeds;
+         window.location.hash = 'breed-' + listAllBreed + '/' + insurtSubBreeds;
          getIndividualDogBreed(insurtBigLetterSubBreeds);
         });
         createdSubLiForUl.textContent = insurtBigLetterSubBreeds;
@@ -79,6 +78,7 @@ function renderDogBreedMenue() {
 }
 // Hämta random bilder baserat på vilken ras jag väljer
 function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreeds){
+  let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
   let urlStr;
   let getBreedStrAddressBar = location.hash;
 console.log(getBreedStrAddressBar);
@@ -97,7 +97,10 @@ console.log(getBreedStrAddressBar);
     //sätt stor bokstav
     let getHeadDogStr = getHeadDogBreedStr.charAt(0).toUpperCase() + getHeadDogBreedStr.slice(1);
 
-    // Få ut alla underraser med stor bosdtav
+    //Återge endast namnet för url strängen
+    let getBreedForUrlStr = getBreedStr.split('breed-')[1];
+
+     // Få ut alla underraser med stor bosdtav
     for (let i = 1; i < getBreedStrIntoArr.length; i++) {
       let getSubdDogBreedStr = getBreedStrIntoArr[i];
       // stor bokstav
@@ -107,7 +110,7 @@ console.log(getBreedStrAddressBar);
       getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr + ' --> ' + getSubDogStr;
     }
     else getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr;
-    urlStr = 'https://dog.ceo/api/breed/' + getBreedStr + '/images/random';
+    urlStr = 'https://dog.ceo/api/breed/' + getBreedForUrlStr + '/images/random';
   }
   else urlStr = 'https://dog.ceo/api/breeds/image/random';
 
