@@ -81,11 +81,11 @@ function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreed
   let urlStr;
   let getBreedStrAddressBar = location.hash;
   let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
-  console.log(getBreedStrAddressBar);
 
-  // # tecknet tas bort från strängen
+
+  // ( #breed- ) tecknen tas bort från strängen
   let getBreedStr = getBreedStrAddressBar.split('#breed-')[1];
-
+  console.log(getBreedStr);
   let requestImgs = new XMLHttpRequest();
   requestImgs.addEventListener('load', getIndividualDogBreedImgs);
   let getHeadDogStr;
@@ -98,8 +98,6 @@ function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreed
     //sätt stor bokstav
     let getHeadDogStr = getHeadDogBreedStr.charAt(0).toUpperCase() + getHeadDogBreedStr.slice(1);
 
-    //Återge endast namnet för url strängen
-    let getBreedForUrlStr = getBreedStr.split('breed-')[1];
 
      // Få ut alla underraser med stor bosdtav
     for (let i = 1; i < getBreedStrIntoArr.length; i++) {
@@ -111,7 +109,7 @@ function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreed
       getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr + ' --> ' + getSubDogStr;
     }
     else getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr;
-    urlStr = 'https://dog.ceo/api/breed/' + getBreedForUrlStr + '/images/random';
+    urlStr = 'https://dog.ceo/api/breed/' + getBreedStr + '/images/random';
   }
   else urlStr = 'https://dog.ceo/api/breeds/image/random';
 
