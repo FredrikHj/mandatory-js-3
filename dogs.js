@@ -1,155 +1,125 @@
+// Refresh knapp för random bilder
+
+let dogBreedDefault;
 let getBtnRefresh = document.querySelector('button');
+getBtnRefresh.addEventListener('click', getIndividualDogBreed);
+getBtnRefresh.textContent = "Ny bild!";
+
+// Gäler för  hela projektet ---------------------------------------------------------
+let getPlaceforImgs = document.querySelector('#insurtDogBreedImgs');
 let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
 let createdLiForUl;
 
-getBtnRefresh.addEventListener('click', getRandomImgs);
-
 let getBreedPlace = document.querySelector('#headDogBreedsContainer'); //Hur skicka in vartbael på ett mer riktigt sätt?
 let getAllDogBreeds;
+// Menyn skapas med både huvud och underraser ----------------------------------------
 getAllBreed();
-
 function getAllBreed() {
   let requestBreed = new XMLHttpRequest();
-  requestBreed.addEventListener('load', renderDogAllBreed);
+  requestBreed.addEventListener('load', renderDogBreedMenue);
   let urlStr = 'https://dog.ceo/api/breeds/list/all';
   requestBreed.open('GET', urlStr);
   requestBreed.send();
 }
-function renderDogAllBreed() {
+function renderDogBreedMenue() {
   let getParsedListOfAllBreed = JSON.parse(this.responseText);
   getParsedListOfAllBreed = getParsedListOfAllBreed['message'];
 
-  //Checka om hurvida min meny finns ellere inte
+  //Checka om hurvida min meny finns eller inte
   let checkIfAnyChildNode = document.querySelector('#headDogBreedsContainer').textContent;
+
   for (let listAllBreed in getParsedListOfAllBreed) {
     if (checkIfAnyChildNode === "") {
-      renderMenueListHeadBreeds(listAllBreed);
+      getAllDogBreeds = listAllBreed;
+
+      // Stor bokstav i namnet
+      let getBigLetterAllDogBreeds = getAllDogBreeds.charAt(0).toUpperCase() + getAllDogBreeds.slice(1);
+
+      createdLiForUl = document.createElement('li');
+      createdLiForUl.setAttribute('class', 'dogBreedBox');
+
+      //Huvud hundrasaerna läggs i P element för att lätttare plockas ut
+      let createdPForLiInUl = document.createElement('p');
+      //createdPForLiInUl.setAttribute('class', 'dogBreedHead');
+
+      createdPForLiInUl.addEventListener('click', function(){
+       window.location.hash = listAllBreed;
+       getIndividualDogBreed(getBigLetterAllDogBreeds);
+      });
+
+      createdPForLiInUl.textContent = getBigLetterAllDogBreeds;
+      createdLiForUl.appendChild(createdPForLiInUl);
+      getBreedPlace.appendChild(createdLiForUl);
     }
+    console.log(listAllBreed);
+    console.log(getParsedListOfAllBreed);
+
     getSubBreeds = getParsedListOfAllBreed[listAllBreed];
     let createdSubUlForLi = document.createElement('ul');
     createdSubUlForLi.setAttribute('class', 'subBreed');
 
+      // Alla underraser skapas och läggs under respektive huvudras
       for (let i = 0; i < getSubBreeds.length; i++) {
       if (checkIfAnyChildNode === "") {
-        renderMenueListSubBreeds(getSubBreeds, i, createdSubUlForLi);
+        let insurtSubBreeds = getSubBreeds[i];
+        // Stor bokstav i namnet
+        let insurtBigLetterSubBreeds = insurtSubBreeds.charAt(0).toUpperCase() + insurtSubBreeds.slice(1);
+
+        let createdSubLiForUl = document.createElement('li');
+        createdSubLiForUl.setAttribute('class', 'subBreedIteam');
+          createdSubLiForUl.addEventListener('click', function(){
+         window.location.hash = listAllBreed + '/' + insurtSubBreeds;
+         getIndividualDogBreed(insurtBigLetterSubBreeds);
+        });
+        createdSubLiForUl.textContent = insurtBigLetterSubBreeds;
+        createdSubUlForLi.appendChild(createdSubLiForUl);
+        createdLiForUl.appendChild(createdSubUlForLi);
       }
     }
   }
-  startLiListen();
-  getRandomImgs();
+  getIndividualDogBreed();
 }
-
-function renderMenueListHeadBreeds(listAllBreed){
-  createdLiForUl = document.createElement('li');
-  createdLiForUl.setAttribute('class', 'dogBreedBox');
-
-  let createdPForLiInUl = document.createElement('p'); //Huvud hundrasaerna läggs i P element för att lätttare plockas ut
-  getAllDogBreeds = listAllBreed;
-
-   // Adderar blanksteg ( ' ' ) sist i regeln nedan för funktionen getRandomImgs och raden med ID = 3423
-  createdPForLiInUl.textContent = getAllDogBreeds.charAt(0).toUpperCase() + getAllDogBreeds.slice(1) + ' ';
-
-  createdLiForUl.appendChild(createdPForLiInUl);
-  getBreedPlace.appendChild(createdLiForUl);
-  }
-// Alla underraser skapas och läggs under respektive huvudras
-function renderMenueListSubBreeds(getSubBreeds, i, createdSubUlForLi){
-  let insurtSubBreeds = getSubBreeds[i];
-
-  let createdSubLiForUl = document.createElement('li');
-  createdSubLiForUl.setAttribute('class', 'dogBreedBox');
-  createdSubLiForUl.setAttribute('class', 'subBreedIteam');
-  // Adderar blanksteg ( ' ' ) sist i regeln nedan för funktionen getRandomImgs och raden med ID = 3423
-  createdSubLiForUl.textContent = insurtSubBreeds.charAt(0).toUpperCase() + insurtSubBreeds.slice(1) + ' ';
-  createdSubUlForLi.appendChild(createdSubLiForUl);
-  createdLiForUl.appendChild(createdSubUlForLi);
-}
-function startLiListen() {
-  let getLiElement = document.querySelectorAll('.dogBreedBox p, .subBreedIteam');
-  for (let i = 0; i < getLiElement.length; i++) {
-    let getLiElementToListen = getLiElement[i];
-    getLiElementToListen.addEventListener('click', getDogBreedSpecificStrs);
-  }
-}
-function getDogBreedSpecificStrs(e){
-  let targetLi = e.target;
-  let getTargetStr = targetLi.textContent;
-
-  // ( 3423 ) Hämta ut all raserna inkl huvudrasens strängar och placera detta i en array och hämta sdan huvudrasens str på index 0
-  let getTargetStrsInSubBreed = targetLi.parentElement.textContent;
-  let getTargetStrsInSubBreedToArr = getTargetStrsInSubBreed.split(' ').length;
-  console.log(getTargetStrsInSubBreedToArr);
-
-  let getChildNodesOfTargetLi = targetLi.childNodes.length; //OBS mellanslag räknas som en textnode
-  console.log(getChildNodesOfTargetLi);
-
-  if (getTargetStrsInSubBreedToArr === 2 || getTargetStrsInSubBreedToArr === 4) {
-    getDogBreedsStrPlace.textContent = "Bilder på " + getTargetStr;
-  }
-  else if (getTargetStrsInSubBreedToArr > 2) {
-      let getHeadBreedOfTargetSubBreed = targetLi.parentElement.parentElement.childNodes[0].textContent;
-      getDogBreedsStrPlace.textContent = "Bilder på " + getHeadBreedOfTargetSubBreed + " --> " + getTargetStr;
-  }
-
-
-
-/*
-  //Checka om li elementet med huvusrasen har en underras eller inte
-  let getHeadLiElement = document.querySelector('.headBreeds');
-  //console.log(getHeadLiElement);
-
-
-*/
-  getBtnRefresh.textContent = "Ny bild!";
-
-  //let test = document.querySelector(targetLi);
-  //renderDogAllBreed();
-
-  //getSubBreeds = getParsedListOfAllBreed[listAllBreed];
-}
-
-
-
 // Hämta random bilder baserat på vilken ras jag väljer
-function getRandomImgs () {
-  let requestImgs = new XMLHttpRequest();
-  requestImgs.addEventListener('load', insurtRandomImgs);
+function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreeds){
+  let urlStr;
+  let getBreedStrAddressBar = location.hash;
 
-  let urlStr = 'https://dog.ceo/api/breeds/image/random';
+  // # tecknet tas bort från strängen
+  let getBreedStr = getBreedStrAddressBar.split('#')[1];
+
+  let requestImgs = new XMLHttpRequest();
+  requestImgs.addEventListener('load', getIndividualDogBreedImgs);
+  let getHeadDogStr;
+  let getSubDogStr;
+
+  if (getBreedStr) {
+    // Radera eventuell slash=/ i stärngen och splitta str så du kan du dessa via index
+    let getBreedStrIntoArr = getBreedStr.replace("/", " ").split(' ');
+    let getHeadDogBreedStr = getBreedStrIntoArr[0];
+    //sätt stor bokstav
+    let getHeadDogStr = getHeadDogBreedStr.charAt(0).toUpperCase() + getHeadDogBreedStr.slice(1);
+
+    // Få ut alla underraser med stor bosdtav
+    for (let i = 1; i < getBreedStrIntoArr.length; i++) {
+      let getSubdDogBreedStr = getBreedStrIntoArr[i];
+      // stor bokstav
+      getSubDogStr = getSubdDogBreedStr.charAt(0).toUpperCase() + getSubdDogBreedStr.slice(1);
+    }
+    if (getBreedStr.includes('/')) {
+      getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr + ' --> ' + getSubDogStr;
+    }
+    else getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr;
+    urlStr = 'https://dog.ceo/api/breed/' + getBreedStr + '/images/random';
+  }
+
+  else urlStr = 'https://dog.ceo/api/breed/images/random';
+
   requestImgs.open('GET', urlStr);
   requestImgs.send();
 }
+function getIndividualDogBreedImgs() {
+  let getParsedListOfAllBreed = JSON.parse(this.responseText);
 
-function insurtRandomImgs() {
-  let getParsedRandomImgs = JSON.parse(this.responseText);
-  let getParsedImgsOfAllBreed = getParsedRandomImgs['message'];
-  let getPlaceforImgs = document.querySelector('#insurtDogBreedImgs');
+  let getParsedImgsOfAllBreed = getParsedListOfAllBreed['message'];
   getPlaceforImgs.setAttribute('src', getParsedImgsOfAllBreed);
 }
-/*
-
-  let getStrHeadBreed = targetLi.textContent;
-  console.log(getStrHeadBreed);
-
-   targetLi.parentNode.parentNode;
-
-
-
-
-
-  let getDogBreedStr = targetStrDogBreed;
-
-  let getStrArrOftargetDogBreedLower = targetStrDogBreed.charAt(0).toLowerCase() + targetStrDogBreed.slice(1)
-
-  let requestImgs = new XMLHttpRequest();
-  requestImgs.addEventListener('load', getDogBreedSpecificImgs);
-  let urlStr = 'https://dog.ceo/api/breed/' + getStrArrOftargetDogBreedLower + '/images)';
-  requestImgs.open('GET', urlStr);
-  requestImgs.send();
-
-function getDogBreedSpecificImgs() {
-  let getParsedListOfAllBreed = JSON.parse(this.responseText);
-  console.log("r3weq");
-
-}
-*/
