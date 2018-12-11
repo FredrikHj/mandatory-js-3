@@ -1,5 +1,4 @@
 // Refresh knapp för random bilder
-
 let dogBreedDefault;
 let getBtnRefresh = document.querySelector('button');
 getBtnRefresh.addEventListener('click', getIndividualDogBreed);
@@ -77,7 +76,7 @@ function renderDogBreedMenue() {
       }
     }
   }
-  getIndividualDogBreed();
+  getIndividualDogBreed()
 }
 // Hämta random bilder baserat på vilken ras jag väljer
 function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreeds){
@@ -111,7 +110,6 @@ function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreed
     else getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr;
     urlStr = 'https://dog.ceo/api/breed/' + getBreedStr + '/images/random';
   }
-
   else urlStr = 'https://dog.ceo/api/breed/images/random';
 
   requestImgs.open('GET', urlStr);
