@@ -75,6 +75,7 @@ button{
   margin-top: 10px;
 }
 #insurtDogBreedImgs{
+  position: fixed; 
   margin-top: 20px;
   width: 100%;
 }

@@ -78,12 +78,13 @@ function renderDogBreedMenue() {
 }
 // Hämta random bilder baserat på vilken ras jag väljer
 function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreeds){
-  let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
   let urlStr;
   let getBreedStrAddressBar = location.hash;
-console.log(getBreedStrAddressBar);
+  let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
+  console.log(getBreedStrAddressBar);
+
   // # tecknet tas bort från strängen
-  let getBreedStr = getBreedStrAddressBar.split('#')[1];
+  let getBreedStr = getBreedStrAddressBar.split('#breed-')[1];
 
   let requestImgs = new XMLHttpRequest();
   requestImgs.addEventListener('load', getIndividualDogBreedImgs);
