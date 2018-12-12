@@ -82,10 +82,9 @@ function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreed
   let getBreedStrAddressBar = location.hash;
   let getDogBreedsStrPlace = document.querySelector('#presentDogBreed');
 
-
   // ( #breed- ) tecknen tas bort från strängen
   let getBreedStr = getBreedStrAddressBar.split('#breed-')[1];
-  console.log(getBreedStr);
+
   let requestImgs = new XMLHttpRequest();
   requestImgs.addEventListener('load', getIndividualDogBreedImgs);
   let getHeadDogStr;
@@ -106,9 +105,9 @@ function getIndividualDogBreed(getBigLetterAllDogBreeds, insurtBigLetterSubBreed
       getSubDogStr = getSubdDogBreedStr.charAt(0).toUpperCase() + getSubdDogBreedStr.slice(1);
     }
     if (getBreedStr.includes('/')) {
-      getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr + ' --> ' + getSubDogStr;
+      getDogBreedsStrPlace.textContent = 'Bild på ' + getHeadDogStr + ' --> ' + getSubDogStr;
     }
-    else getDogBreedsStrPlace.textContent = 'Bild - ' + getHeadDogStr;
+    else getDogBreedsStrPlace.textContent = 'Bild på ' + getHeadDogStr;
     urlStr = 'https://dog.ceo/api/breed/' + getBreedStr + '/images/random';
   }
   else urlStr = 'https://dog.ceo/api/breeds/image/random';

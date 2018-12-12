@@ -1,3 +1,4 @@
+/* Ordningen är enligt HTML sidan selector ordning*/
 #mainConainer{
   width: 50%;
   min-width: 800px;
@@ -14,7 +15,7 @@ main{
   flex-direction: row;
   justify-content: space-around;
 }
-/* Sektion vänster */
+/* ------------------------- Sektion vänster -------------------------*/
 #dogBreedsMenues{
     width: 230px;
     display: flex;
@@ -57,7 +58,7 @@ li{
   list-style-type: none;
 }
 
-/* Sektion höger */
+/* ------------------------- Sektion höger ------------------------- */
 #dogBreedsImgs{
   width: 430px;
   display: flex;
